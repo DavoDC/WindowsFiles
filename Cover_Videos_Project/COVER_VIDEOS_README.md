@@ -14,6 +14,7 @@
 - Press Tab to autocomplete and Enter.
 
 ## Other
+The "MARKER.txt" files are for making git recognize empty folders.
 Use this in Git Bash to get a tree printout of the directory structure:  `cmd //c tree/F`
 
 ## Info
