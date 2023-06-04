@@ -1,9 +1,13 @@
 
 # COVER VIDEOS README
 
+## Aim
+This project aims to convert MP3 audio files into MP4 video files,
+by utilizing the album art from the audio file as video frames.
+
 ## Usage
-1. Put your MP3 files in the Audio folder.
-    - Remove EXCLAMATION MARKS from file names.
+1. Put MP3 files in the Audio folder.
+    - Remove exclamation marks from file names.
 2. Download "Essentials Build" of FFMPEG from the [Releases page](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-github).
 3. Put 'ffmpeg.exe' and 'ffprobe.exe' in the Scripts folder.
 4. Click on each script in order, checking the output.
