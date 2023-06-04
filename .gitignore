@@ -1,0 +1,12 @@
+
+# Executables
+*.exe
+Anime_Channel_Scripts/0_Scripts/ffmpeg.exe
+Anime_Channel_Scripts/0_Scripts/ffprobe.exe
+
+# Media
+*.png
+*.mp3
+
+# Other
+*.ini
