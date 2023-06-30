@@ -1,5 +1,9 @@
 
 
+Reanme to WindowsFiles
+
+Add powershell Speech Gen
+
 Factor our admin into separate script?
 
 Check for improvements using CGT
@@ -20,6 +24,10 @@ Reset IP
 Cycle and rest
 
 Check if PS clickable and working first
+
+
+
+Add registry edits
 
 Rename to windows files and add more from computery
 
