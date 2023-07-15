@@ -1,2 +1,6 @@
-# BatchScripts
-My batch scripts for Windows
+# Windows Files
+
+My Windows files:
+- Batch Scripts
+- PowerShell Scripts
+- Registry Tweaks

@@ -1,0 +1,16 @@
+
+######### <DAY> <DD>/<MM>/<YYYY> - Standup Speech #########
+
+
+### YESTERDAY (<YESTERDAY>)
+- X
+->
+
+
+### TODAY (<DAY>)
+
+Today, I will X
+
+
+### NOTES
+- X
