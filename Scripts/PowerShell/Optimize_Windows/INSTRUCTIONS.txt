@@ -1,0 +1,10 @@
+
+1. Shift + Right Click + 'Open PowerShell window here`
+
+2. Enable running scripts with:
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted -Force;
+
+3. Run script using:
+./optimizeWin10.ps1
+
+(Errors are normal)
