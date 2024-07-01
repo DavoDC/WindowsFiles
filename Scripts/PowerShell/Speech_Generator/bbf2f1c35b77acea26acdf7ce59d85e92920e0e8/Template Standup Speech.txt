@@ -1,0 +1,30 @@
+
+########## <DAY> <DD>/<MM>/<YYYY> - Standup Speech ##########
+
+
+###### TODAY (<DAY>)
+
+### PROJECT NAME (X <DAY>)
+
+## BEFORE <DAY> STANDUP (X <DAY>)
+# X
+- X
+
+
+# X
+- X
+
+
+## AFTER <DAY> STANDUP (X <DAY>)
+# X
+- X
+
+
+# X
+- X
+
+
+
+
+### NOTES
+- X
