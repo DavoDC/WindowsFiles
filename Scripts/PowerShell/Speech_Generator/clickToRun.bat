@@ -1,2 +1,0 @@
-
-powershell ./GenerateSpeeches.ps1
