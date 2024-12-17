@@ -66,14 +66,14 @@ if (-Not (Test-Administrator)) {
 do {
     Clear-Host
 
-    Write-Host "================================"
-    Write-Host "======= ARR Program Fixer ======"
-    Write-Host "================================"
+    Write-Host "================================="
+    Write-Host "====== ARR Program Manager ======"
+    Write-Host "================================="
     Write-Host "1. Start all ARR programs"
     Write-Host "2. Close all ARR programs"
     Write-Host "3. Open all web interfaces"
     Write-Host "4. Exit"
-    Write-Host "=============================="
+    Write-Host "================================="
 
     $choice = Read-Host "Enter your choice (1-4)"
     Write-Host ""
