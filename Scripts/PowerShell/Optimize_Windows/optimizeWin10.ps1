@@ -192,7 +192,7 @@ $apps = @(
     "PandoraMediaInc.29680B314EFC2"
     "Playtika.CaesarsSlotsFreeCasino"
     "ShazamEntertainmentLtd.Shazam"
-    "SpotifyAB.SpotifyMusic"
+    # "SpotifyAB.SpotifyMusic"
     "ThumbmunkeysLtd.PhototasticCollage"
     "TuneIn.TuneInRadio"
     "WinZipComputing.WinZipUniversal"
