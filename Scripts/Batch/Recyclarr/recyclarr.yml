@@ -1,0 +1,170 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+
+# An empty starter config to use with Recyclarr. Update the values below as needed for your
+# instance. You will be required to update the `api_key` and `base_url` for each instance you want
+# to use.
+#
+# If you'd rather use pre-built configuration instead of building your own from scratch, see these
+# pages:
+# - Config Templates: https://recyclarr.dev/wiki/guide-configs/
+# - CLI Command: http://recyclarr.dev/wiki/cli/config/list/templates/
+#
+# This file WILL NOT WORK as it currently is. You need to read the documentation and build this
+# configuration from scratch. Note that there's no "one size fits all" configuration. Please refer
+# to the TRaSH Guides to understand how to build the appropriate configuration based on your
+# hardware setup and capabilities.
+#
+# For more details on the configuration, see the Configuration Reference on the wiki here:
+# https://recyclarr.dev/wiki/yaml/config-reference/
+#
+# Want a more flexible file layout?
+# See: https://recyclarr.dev/wiki/file-structure/
+
+# Configuration specific to Sonarr. For Radarr, the layout is the same.
+# See: http://recyclarr.dev/wiki/yaml/config-reference/basic/
+sonarr:
+  series:
+    # Set the URL/API Key to your actual instance
+    base_url: http://127.0.0.1:8989/
+    api_key: cab69d7534a34ebfb1f0e21394be6ee4
+
+    delete_old_custom_formats: true
+    replace_existing_custom_formats: true
+
+    # See: http://recyclarr.dev/wiki/yaml/config-reference/custom-formats/
+    custom_formats:
+      - trash_ids:
+          - 85c61753df5da1fb2aab6f2a47426b09 # BR-DISK
+          - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)
+          - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
+          - 7ba05c6e0e14e793538174c679126996 # Multi
+          - 15a05bc7c1a36e2b57fd628f8977e2fc # AV1
+          - 90501962793d580d011511155c97e4e5 # VP9
+          - 3bc5f395426614e155e585a2f056cdf1 # Season Packs
+          - fbcb31d8dabd2a319072b84fc0b7249c # Extras
+          - 23297a736ca77c0fc8e70f8edd7ee56c # Upscaled
+          - d660701077794679fd59e8bdf4ce3a29 # AMZN
+          - f67c9ca88f463a48346062e8ad07713f # ATVP
+          - 89358767a60cc28783cdc3d0be9388a4 # DSNP
+          - a880d6abc21e7c16884f3ae393f84179 # HMAX
+          - 81d1fbf600e2540cee87f3a23f9d3c1c # MAX
+          - 7a235133c87f7da4c8cccceca7e3c7a6 # HBO
+          - d34870697c9db575f17700212167be23 # NF
+          - c67a75ae4a1715f2bb4d492755ba4195 # PMTP
+          - 1656adc6d7bb2c8cca6acfb6592db421 # PCOK
+          - f6cce30f1733d5c8194222a7507909bb # HULU
+          - ae58039e1319178e6be73caab5c42166 # SHO
+          - bbcaf03147de0f73be2be4a9078dfa03 # 4OD
+          - fcc09418f67ccaddcf3b641a22c5cfd7 # ALL4
+          - dc503e2425126fa1d0a9ad6168c83b3f # iP
+          - fa5a16b951004c23e980d2913694a137 # ITVX
+          - 9f72dc1059a6b277c21cee6a1f15f13f # MY5
+          - e6e299075e22ac8f541f722254c8350a # AUBC
+          - defb0b4c8b3f6a15927c0f14c6e69c94 # CBC
+          - 4e9a630db98d5391aec1368a0256e2fe # CRAV
+          - dc5f2bb0e0262155b5fedd0f6c5d2b55 # DSCP
+          - c30d2958827d1867c73318a5a2957eb1 # RED
+          - 2b239ed870daba8126a53bd5dc8dc1c8 # DV HDR10+
+          - 7878c33f1963fefb3d6c8657d46c2f0a # DV HDR10
+          - 6d0d8de7b57e35518ac0308b0ddf404e # DV
+          - 1f733af03141f068a540eec352589a89 # DV HLG
+          - 27954b0a80aab882522a88a4d9eae1cd # DV SDR
+          - a3d82cbef5039f8d295478d28a887159 # HDR10+
+          - 3497799d29a085e2ac2df9d468413c94 # HDR10
+          - 3e2c4e748b64a1a1118e0ea3f4cf6875 # HDR
+          - bb019e1cd00f304f80971c965de064dc # HDR (undefined)
+          - 2a7e3be05d3861d6df7171ec74cad727 # PQ
+          - 17e889ce13117940092308f48b48b45b # HLG
+          - b735f09d3c025cbb7d75a5d38325b73b # Remaster
+          - 0d7824bb924701997f874e7ff7d4844a # TrueHD ATMOS
+          - 9d00418ba386a083fbf4d58235fc37ef # DTS X
+          - b6fbafa7942952a13e17e2b1152b539a # ATMOS (undefined)
+          - 4232a509ce60c4e208d13825b7c06264 # DD+ ATMOS
+          - 1808e4b9cee74e064dfae3f1db99dbfe # TrueHD
+          - c429417a57ea8c41d57e6990a8b0033f # DTS-HD MA
+          - 851bd64e04c9374c51102be3dd9ae4cc # FLAC
+          - 30f70576671ca933adbdcfc736a69718 # PCM
+          - cfa5fbd8f02a86fc55d8d223d06a5e1f # DTS-HD HRA
+          - 63487786a8b01b7f20dd2bc90dd4a477 # DD+
+          - c1a25cd67b5d2e08287c957b1eb903ec # DTS-ES
+          - 5964f2a8b3be407d083498e4459d05d0 # DTS
+          - a50b8a0c62274a7c38b09a9619ba9d86 # AAC
+          - dbe00161b08a25ac6154c55f95e6318d # DD
+          - 28f6ef16d61e2d1adfce3156ed8257e3 # OPUS
+          - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
+          - d2d7b8a9d39413da5f44054080e028a3 # v0
+          - b4a1b3d705159cdca36d71e57ca86871 # Anime Raws
+          - 9c14d194486c4014d422adc64092d794 # Dubs only
+          - 1efe8da11bfd74fbbcd4d8117ddb9213 # STAN
+          - b66a699fba6f9df91becab798d7502e5 # NOW TV
+          - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
+          - 7470a681e6205243983c4410ee4c920f # VC-1
+          - 418f50b10f1907201b6cfdf881f467b7 # Anime Dual Audio
+
+
+# Configuration specific to Radarr.
+# See: http://recyclarr.dev/wiki/yaml/config-reference/basic/
+radarr:
+  movies:
+    # Set the URL/API Key to your actual instance
+    base_url: http://127.0.0.1:7878/
+    api_key: 27c0cde3049a4321abe44167b16cbe0b
+    
+    delete_old_custom_formats: true
+    replace_existing_custom_formats: true
+    
+    # See: http://recyclarr.dev/wiki/yaml/config-reference/custom-formats/
+    custom_formats:
+      - trash_ids:
+          - 496f355514737f7d83bf7aa4d24f8169 # TrueHD Atmos
+          - 2f22d89048b01681dde8afe203bf2e95 # DTS X
+          - 417804f7f2c4308c1f4c5d380d4c4475 # ATMOS (undefined)
+          - 1af239278386be2919e1bcee0bde047e # DD+ ATMOS
+          - 3cafb66171b47f226146a0770576870f # TrueHD
+          - dcf3ec6938fa32445f590a4da84256cd # DTS-HD MA
+          - a570d4a0e56a2874b64e5bfa55202a1b # FLAC
+          - e7c2fcae07cbada050a0af3357491d7b # PCM
+          - 8e109e50e0a0b83a5098b056e13bf6db # DTS-HD HRA
+          - 185f1dd7264c4562b9022d963ac37424 # DD+
+          - f9f847ac70a0af62ea4a08280b859636 # DTS-ES
+          - 1c1a4c5e823891c75bc50380a6866f73 # DTS
+          - 240770601cc226190c367ef59aba7463 # AAC
+          - c2998bd0d90ed5621d8df281e839436e # DD
+          - a061e2e700f81932daf888599f8a8273 # OPUS
+          - c53085ddbd027d9624b320627748612f # DV HDR10+
+          - e23edd2482476e595fb990b12e7c609c # DV HDR10
+          - 58d6a88f13e2db7f5059c41047876f00 # DV
+          - 55d53828b9d81cbe20b02efd00aa0efd # DV HLG
+          - a3e19f8f627608af0211acd02bf89735 # DV SDR
+          - b974a6cd08c1066250f1f177d7aa1225 # HDR10+
+          - dfb86d5941bc9075d6af23b09c2aeecd # HDR10
+          - e61e28db95d22bedcadf030b8f156d96 # HDR
+          - 2a4d9069cc1fe3242ff9bdaebed239bb # HDR (undefined)
+          - 08d6d8834ad9ec87b1dc7ec8148e7a1f # PQ
+          - 9364dd386c9b4a1100dde8264690add7 # HLG
+          - 570bc9ebecd92723d2d21500f4be314c # Remaster
+          - eca37840c13c6ef2dd0262b141a5482f # 4K Remaster
+          - e0c07d59beb37348e975a930d5e50319 # Criterion Collection
+          - 9d27d9d2181838f76dee150882bdc58c # Masters of Cinema
+          - db9b4c4b53d312a3ca5f1378f6440fc9 # Vinegar Syndrome
+          - 957d0f44b592285f26449575e8b1167e # Special Edition
+          - eecf3a857724171f968a66cb5719e152 # IMAX
+          - 9f6cbff8cfe4ebbc1bde14c7b7bec0de # IMAX Enhanced
+          - 09d9dd29a0fc958f9796e65c2a8864b4 # Open Matte
+          - ed38b889b31be83fda192888e2286d83 # BR-DISK
+          - 4b900e171accbfb172729b63323ea8ca # Multi
+          - b8cd450cbfa689c0259a01d9e29ba3d6 # 3D
+          - c465ccc73923871b3eb1802042331306 # Line/Mic Dubbed
+          - cae4ca30163749b891686f95532519bd # AV1
+          - ae4cfaa9283a4f2150ac3da08e388723 # VP9
+          - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
+          - bfd8eb01832d646a0a89c4deb46f8564 # Upscaled
+          - 0a3f082873eb454bde444150b70253cc # Extras
+          - 923b6abef9b17f937fab56cfcf89e1f1 # DV (WEBDL)
+          - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
+          - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
+          - 712d74cd88bceb883ee32f773656b1f5 # Sing-Along Versions
+          - cc444569854e9de0b084ab2b8b1532b2 # Black and White Editions
+          - e6886871085226c3da1830830146846c # Generated Dynamic HDR
+          - 11cd1db7165d6a7ad9a83bc97b8b1060 # VC-1
+
