@@ -1,3 +1,0 @@
-Put YAML here:
-
-%APPDATA%\recyclarr
