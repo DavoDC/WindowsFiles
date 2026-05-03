@@ -1,5 +1,5 @@
 @echo off
-title Compress to 4MB - FFmpeg
+title FFMPEG Compressor
 
 if "%~1"=="" (
     echo.
@@ -9,5 +9,5 @@ if "%~1"=="" (
     exit
 )
 
-powershell -ExecutionPolicy Bypass -NoProfile -File "%~dp0components\Compress-To-4MB.ps1" "%~1"
+powershell -ExecutionPolicy Bypass -NoProfile -File "%~dp0components\FFMPEG-Compressor.ps1" "%~1"
 cmd /k
