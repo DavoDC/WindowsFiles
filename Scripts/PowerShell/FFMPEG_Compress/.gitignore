@@ -1,5 +1,9 @@
 # FFmpeg binaries (auto-downloaded)
-ffmpeg/
+components/ffmpeg/
+
+# FFmpeg download archives (kept for faster reinstall)
+components/*.7z
+components/*.zip
 
 # Logs
 *.log
