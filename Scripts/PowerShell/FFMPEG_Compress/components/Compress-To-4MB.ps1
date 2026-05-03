@@ -16,7 +16,9 @@ if (-not (Test-Path $InputFile)) {
 
 $inputDir  = Split-Path -Parent $InputFile
 $inputBase = [System.IO.Path]::GetFileNameWithoutExtension($InputFile)
-$LogFile   = Join-Path $inputDir "${inputBase}_4mb_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+$LogDir    = Join-Path $ScriptDir "logs"
+if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir | Out-Null }
+$LogFile   = Join-Path $LogDir "${inputBase}_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
 
 Start-Transcript -Path $LogFile -NoClobber | Out-Null
 
@@ -76,19 +78,19 @@ if (-not $ffmpegExe) {
     }
 
     if ($7zExe) {
-        Write-Host "  Downloading 7z archive from gyan.dev (this may take a minute)..."
-        $archive = Join-Path $env:TEMP "ffmpeg-dl.7z"
+        $archive = Join-Path $ScriptDir "ffmpeg-dl.7z"
+        Write-Host "  Downloading 7z archive (~32 MB)..."
         Invoke-WebRequest -Uri "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z" -OutFile $archive -UseBasicParsing
         Write-Host "  Extracting..."
         & $7zExe x $archive "-o$FfmpegDir" -y | Out-Null
-        Remove-Item $archive -Force -ErrorAction SilentlyContinue
+        Write-Host "  Archive kept at: $archive"
     } else {
-        Write-Host "  7-Zip not found - downloading zip version instead..."
-        $archive = Join-Path $env:TEMP "ffmpeg-dl.zip"
+        $archive = Join-Path $ScriptDir "ffmpeg-dl.zip"
+        Write-Host "  7-Zip not found - downloading zip version (~80 MB). Install 7-Zip to use the smaller archive next time."
         Invoke-WebRequest -Uri "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip" -OutFile $archive -UseBasicParsing
         Write-Host "  Extracting..."
         Expand-Archive -Path $archive -DestinationPath $FfmpegDir -Force
-        Remove-Item $archive -Force -ErrorAction SilentlyContinue
+        Write-Host "  Archive kept at: $archive"
     }
 
     $ffmpegExe  = Find-InDir $FfmpegDir "ffmpeg.exe"
@@ -172,7 +174,7 @@ Write-Host "[3/4] Two-pass encoding..."
 # Pass 1 - analysis only, no audio written
 Write-Host "  Pass 1/2 (analysis pass)..."
 $t3aStart = Get-Date
-& $ffmpegExe -y -i "$InputFile" `
+& $ffmpegExe -nostdin -y -i "$InputFile" `
     -c:v libx264 -preset slow -profile:v high `
     -b:v "${videoBitrateK}k" `
     -pass 1 -passlogfile "$passlog" `
@@ -189,7 +191,7 @@ Write-Host "  Pass 1 complete - $([int]((Get-Date) - $t3aStart).TotalSeconds)s"
 # Pass 2 - full encode with audio
 Write-Host "  Pass 2/2 (encode pass)..."
 $t3bStart = Get-Date
-& $ffmpegExe -y -i "$InputFile" `
+& $ffmpegExe -nostdin -y -i "$InputFile" `
     -c:v libx264 -preset slow -profile:v high `
     -b:v "${videoBitrateK}k" `
     -pass 2 -passlogfile "$passlog" `
