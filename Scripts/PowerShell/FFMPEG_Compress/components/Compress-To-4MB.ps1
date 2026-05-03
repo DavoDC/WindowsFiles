@@ -78,14 +78,14 @@ if (-not $ffmpegExe) {
     }
 
     if ($7zExe) {
-        $archive = Join-Path $ScriptDir "ffmpeg-dl.7z"
+        $archive = Join-Path $FfmpegDir "ffmpeg-dl.7z"
         Write-Host "  Downloading 7z archive (~32 MB)..."
         Invoke-WebRequest -Uri "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.7z" -OutFile $archive -UseBasicParsing
         Write-Host "  Extracting..."
         & $7zExe x $archive "-o$FfmpegDir" -y | Out-Null
         Write-Host "  Archive kept at: $archive"
     } else {
-        $archive = Join-Path $ScriptDir "ffmpeg-dl.zip"
+        $archive = Join-Path $FfmpegDir "ffmpeg-dl.zip"
         Write-Host "  7-Zip not found - downloading zip version (~80 MB). Install 7-Zip to use the smaller archive next time."
         Invoke-WebRequest -Uri "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip" -OutFile $archive -UseBasicParsing
         Write-Host "  Extracting..."
