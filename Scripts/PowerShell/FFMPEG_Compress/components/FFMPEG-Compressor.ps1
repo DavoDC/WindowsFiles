@@ -3,9 +3,9 @@ param(
     [string]$InputFile
 )
 
-$TargetSizeMB = 4
 $ScriptDir    = Split-Path -Parent $MyInvocation.MyCommand.Path
 $FfmpegDir    = Join-Path $ScriptDir "ffmpeg"
+$LogDir       = Join-Path $ScriptDir "logs"
 $SessionStart = Get-Date
 
 # Validate input before anything else
@@ -16,16 +16,40 @@ if (-not (Test-Path $InputFile)) {
 
 $inputDir  = Split-Path -Parent $InputFile
 $inputBase = [System.IO.Path]::GetFileNameWithoutExtension($InputFile)
-$LogDir    = Join-Path $ScriptDir "logs"
+
+Write-Host ""
+Write-Host "=== FFMPEG Compressor ==="
+Write-Host "Input: $InputFile"
+Write-Host ""
+
+# ── Target size selection ─────────────────────────────────────────────────────
+Write-Host "  Target size:"
+Write-Host "    [1] 4 MB"
+Write-Host "    [2] 6 MB"
+Write-Host "    [3] 8 MB"
+Write-Host ""
+$choice = Read-Host "  Choose (1/2/3)"
+
+$TargetSizeMB = switch ($choice.Trim()) {
+    "1" { 4 }
+    "2" { 6 }
+    "3" { 8 }
+    default {
+        Write-Host "  Invalid choice - defaulting to 4 MB."
+        4
+    }
+}
+Write-Host ""
+
 if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir | Out-Null }
-$LogFile   = Join-Path $LogDir "${inputBase}_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+$LogFile = Join-Path $LogDir "${inputBase}_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
 
 Start-Transcript -Path $LogFile -NoClobber | Out-Null
 
-Write-Host ""
-Write-Host "=== Compress to 4MB ==="
+Write-Host "=== FFMPEG Compressor ==="
 Write-Host "Started : $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "Input   : $InputFile"
+Write-Host "Target  : $TargetSizeMB MB"
 Write-Host ""
 
 # ── Step 1: Locate FFmpeg ─────────────────────────────────────────────────────
@@ -41,7 +65,7 @@ function Find-InDir {
 $ffmpegExe  = $null
 $ffprobeExe = $null
 
-# Check local install
+# Check local install first
 if (Test-Path $FfmpegDir) {
     $ffmpegExe  = Find-InDir $FfmpegDir "ffmpeg.exe"
     $ffprobeExe = Find-InDir $FfmpegDir "ffprobe.exe"
@@ -61,13 +85,11 @@ if (-not $ffmpegExe) {
 # Download if still not found
 if (-not $ffmpegExe) {
     Write-Host "  FFmpeg not found - downloading..."
-    if (-not (Test-Path $FfmpegDir)) {
-        New-Item -ItemType Directory -Path $FfmpegDir | Out-Null
-    }
+    if (-not (Test-Path $FfmpegDir)) { New-Item -ItemType Directory -Path $FfmpegDir | Out-Null }
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-    # Prefer 7-Zip (uses the 7z URL the user wants), fall back to zip
+    # Prefer 7-Zip (32 MB archive vs 80 MB zip)
     $7zExe = $null
     foreach ($candidate in @("7z", "7za", "$env:ProgramFiles\7-Zip\7z.exe", "${env:ProgramFiles(x86)}\7-Zip\7z.exe")) {
         if ($candidate -match '\\') {
@@ -155,7 +177,7 @@ $totalBitrateBps = ($targetBytes * 8) / $duration
 $videoBitrateBps = $totalBitrateBps - ($audioBitrateKbps * 1000)
 
 if ($videoBitrateBps -lt 5000) {
-    Write-Host "  WARNING: Video is very long - quality will be extremely low at 4MB."
+    Write-Host "  WARNING: Video is very long - quality will be extremely low at ${TargetSizeMB} MB."
     $videoBitrateBps = 5000
 }
 $videoBitrateK = [int]($videoBitrateBps / 1000)
@@ -165,13 +187,14 @@ Write-Host "  Audio bitrate: ${audioBitrateKbps} kbps"
 Write-Host "  Analysis time: $([int]((Get-Date) - $t2Start).TotalSeconds)s"
 
 # ── Step 3: Two-pass encode ───────────────────────────────────────────────────
-$outputFile = Join-Path $inputDir "${inputBase}_4mb.mp4"
+$outputFile = Join-Path $inputDir "${inputBase}_${TargetSizeMB}mb.mp4"
 $passlog    = Join-Path $env:TEMP "ffmpeg-pass-$PID"
 
 Write-Host ""
 Write-Host "[3/4] Two-pass encoding..."
 
 # Pass 1 - analysis only, no audio written
+# -nostdin prevents ffmpeg from reading stdin (causes hang when called from PowerShell)
 Write-Host "  Pass 1/2 (analysis pass)..."
 $t3aStart = Get-Date
 & $ffmpegExe -nostdin -y -i "$InputFile" `
