@@ -20,6 +20,13 @@ $inputBase = [System.IO.Path]::GetFileNameWithoutExtension($InputFile)
 Write-Host ""
 Write-Host "=== FFMPEG Compressor ==="
 Write-Host "Input: $InputFile"
+
+# Calculate input size for display in menu
+$inputSizeMB = [math]::Round((Get-Item $InputFile).Length / 1MB, 2)
+$quarterSizeMB = [math]::Round($inputSizeMB * 0.25, 2)
+$halfSizeMB = [math]::Round($inputSizeMB * 0.5, 2)
+
+Write-Host "Input size: ${inputSizeMB} MB"
 Write-Host ""
 
 # ── Target size selection ─────────────────────────────────────────────────────
@@ -27,13 +34,27 @@ Write-Host "  Target size:"
 Write-Host "    [1] 4 MB"
 Write-Host "    [2] 6 MB"
 Write-Host "    [3] 8 MB"
+Write-Host "    [4] Quarter size of original (${quarterSizeMB} MB)"
+Write-Host "    [5] Half size of original (${halfSizeMB} MB)"
+Write-Host "    [6] Custom (enter MB value)"
 Write-Host ""
-$choice = Read-Host "  Choose (1/2/3)"
+$choice = Read-Host "  Choose (1-6)"
 
 $TargetSizeMB = switch ($choice.Trim()) {
     "1" { 4 }
     "2" { 6 }
     "3" { 8 }
+    "4" { $quarterSizeMB }
+    "5" { $halfSizeMB }
+    "6" {
+        $customInput = Read-Host "  Enter target size in MB"
+        if ([double]::TryParse($customInput, [ref]$customMB) -and $customMB -gt 0) {
+            $customMB
+        } else {
+            Write-Host "  Invalid input - defaulting to 4 MB."
+            4
+        }
+    }
     default {
         Write-Host "  Invalid choice - defaulting to 4 MB."
         4
@@ -157,7 +178,6 @@ if (-not [double]::TryParse($rawDuration, [ref]$duration) -or $duration -le 0) {
 }
 
 $durationFmt = [TimeSpan]::FromSeconds($duration).ToString("hh\:mm\:ss")
-$inputSizeMB = [math]::Round((Get-Item $InputFile).Length / 1MB, 2)
 
 Write-Host "  Duration  : $durationFmt ($([math]::Round($duration,1))s)"
 Write-Host "  Input size: ${inputSizeMB} MB"
@@ -219,6 +239,7 @@ $t3bStart = Get-Date
     -b:v "${videoBitrateK}k" `
     -pass 2 -passlogfile "$passlog" `
     -c:a aac -b:a "${audioBitrateKbps}k" `
+    -af aresample=async=1 `
     -movflags +faststart `
     "$outputFile"
 
