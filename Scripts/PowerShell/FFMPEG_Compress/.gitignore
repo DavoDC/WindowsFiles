@@ -1,8 +1,0 @@
-# FFmpeg binaries and download archives (auto-downloaded, stored together)
-components/ffmpeg/
-
-# Logs
-*.log
-
-# Videos
-*.mp4
