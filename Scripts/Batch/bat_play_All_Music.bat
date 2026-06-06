@@ -12,7 +12,7 @@ if exist "%vlcpath1%" (
     set "vlcpath=%vlcpath2%"
 ) else (
     echo.
-    echo "VLC is not installed or cannot be found!"
+    echo VLC is not installed or cannot be found!
     echo.
     pause
     exit /b
@@ -22,20 +22,24 @@ if exist "%vlcpath1%" (
 dir /b /s "%audioPath%\*.mp3" >nul 2>&1
 if errorlevel 1 (
     echo.
-    echo "Audio folder is empty or non-existent!"
+    echo Audio folder is empty or non-existent!
     echo.
     pause
     exit /b
 )
 
-:: Launch VLC with specified options
-:: --no-playlist-tree - Disables hierarchical grouping and expands all items into a flat list.
-:: --playlist-autostart - Automatically starts playing the playlist.
-:: --auto-preparse - Pre-parses metadata for media files in the playlist before they are played.
-:: --random - Shuffles the playlist.
-:: --loop - Loops the playlist continuously.
-:: -Z - Enables random and loop together (shuffled loop).
-start "" "%vlcpath%" "%audioPath%" --no-playlist-tree --playlist-autostart --auto-preparse --random --loop -Z
+:: Kill any existing VLC to guarantee a clean start (prevents "stuck on previous session" issue)
+taskkill /f /im vlc.exe >nul 2>&1
+
+:: Launch VLC
+:: -Z                       Shuffle (random forever) - replaces redundant --random + -Z combo
+:: -L                       Loop playlist
+:: --no-auto-preparse       Skip upfront metadata scan - the main cause of slow startup
+:: --no-metadata-network-access  Block online metadata lookups (another startup delay)
+:: --recursive=expand       Explicitly scan all subdirectories
+:: --no-playlist-tree       Flat list view
+:: --playlist-autostart     Begin playback immediately on load
+start "" "%vlcpath%" "%audioPath%" --no-playlist-tree --playlist-autostart -Z -L --no-auto-preparse --no-metadata-network-access --recursive=expand
 exit /b
 
 :: To fix reading of non-audio file extensions, add the ext to:
