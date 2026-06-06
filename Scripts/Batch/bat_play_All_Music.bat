@@ -44,3 +44,6 @@ exit /b
 
 :: To fix reading of non-audio file extensions, add the ext to:
 :: Tools -> Prefs -> All -> Playlist -> Ignored extensions
+::
+:: If VLC behaves erratically (wrong playlist, slow start), rebuild the plugin cache:
+:: Run as admin: "C:\Program Files\VideoLAN\VLC\vlc-cache-gen.exe" "C:\Program Files\VideoLAN\VLC\plugins"
