@@ -4,6 +4,7 @@ set "audioPath=C:\Users\%username%\Audio"
 set "vlcpath1=C:\Program Files\VideoLAN\VLC\vlc.exe"
 set "vlcpath2=C:\Program Files (x86)\VideoLAN\VLC\vlc.exe"
 set "vlcpath="
+set "playlist=%TEMP%\all_music_shuffled.m3u"
 
 :: Find VLC installation path
 if exist "%vlcpath1%" (
@@ -18,28 +19,35 @@ if exist "%vlcpath1%" (
     exit /b
 )
 
-:: Check if audio folder contains MP3 files
-dir /b /s "%audioPath%\*.mp3" >nul 2>&1
-if errorlevel 1 (
+:: Check audio folder exists
+if not exist "%audioPath%" (
     echo.
-    echo Audio folder is empty or non-existent!
+    echo Audio folder not found: %audioPath%
     echo.
     pause
     exit /b
 )
 
-:: Kill any existing VLC to guarantee a clean start (prevents "stuck on previous session" issue)
+:: NOTE: Library is MP3-only - do not add other formats (.flac, .wav, .m4a etc)
+:: Build a flat shuffled M3U using PowerShell - bypasses VLC's folder-biased shuffle
+:: Sort-Object {Get-Random} works on PS5 (built-in Windows) and PS7
+echo Building shuffled playlist from full library...
+powershell -NoProfile -Command "$f=Get-ChildItem -LiteralPath '%audioPath%' -Recurse -Include '*.mp3' | Sort-Object {Get-Random}; '#EXTM3U' | Set-Content -LiteralPath '%playlist%' -Encoding UTF8; $f.FullName | Add-Content -LiteralPath '%playlist%' -Encoding UTF8; Write-Host ($f.Count.ToString() + ' tracks - playlist ready')"
+
+if errorlevel 1 (
+    echo.
+    echo Failed to build playlist!
+    echo.
+    pause
+    exit /b
+)
+
+:: Kill any existing VLC for a clean start
 taskkill /f /im vlc.exe >nul 2>&1
 
-:: Launch VLC
-:: -Z                       Shuffle (random forever) - replaces redundant --random + -Z combo
-:: -L                       Loop playlist
-:: --no-auto-preparse       Skip upfront metadata scan - the main cause of slow startup
-:: --no-metadata-network-access  Block online metadata lookups (another startup delay)
-:: --recursive=expand       Explicitly scan all subdirectories
-:: --no-playlist-tree       Flat list view
-:: --playlist-autostart     Begin playback immediately on load
-start "" "%vlcpath%" "%audioPath%" --no-playlist-tree --playlist-autostart -Z -L --no-auto-preparse --no-metadata-network-access --recursive=expand
+:: Launch VLC with pre-shuffled flat playlist
+:: -L loops; -Z adds re-shuffle between loops; no recursive scan needed
+start "" "%vlcpath%" "%playlist%" --playlist-autostart -L -Z --no-auto-preparse --no-metadata-network-access
 exit /b
 
 :: To fix reading of non-audio file extensions, add the ext to:
